@@ -1,0 +1,20 @@
+clc;
+clear; 
+close all;
+
+n = [-4:2]; 
+x = [1,-2,4,6,-5,8,10];
+[x51,n51] = sigshift(x,n,1); 
+[x52,n52] = sigshift(x,n,2); 
+[x5,n5] = sigadd(x51,n51,x52,n52);
+[x53,n53] = sigshift(x,n,3); 
+[x5,n5] = sigadd(x5,n5,x53,n53); 
+[x54,n54] = sigshift(x,n,4); 
+[x5,n5] = sigadd(x5,n5,x54,n54); 
+[x55,n55] = sigshift(x,n,5); 
+[x5,n5] = sigadd(x5,n5,x55,n55); 
+[x5,n5] = sigmult(x5,n5,n5,n5);
+stem(n5,x5);
+xlabel('n'); 
+ylabel('x5(n)'); 
+title('Sequence x5(n)');

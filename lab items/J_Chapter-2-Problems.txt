@@ -1,0 +1,192 @@
+Problem 2.1 (a)
+clc;
+clear; 
+close all;
+
+n1 = [0:25]; 
+x1 = zeros(1,length(n1));
+
+for m = 0:10
+    x1 = x1 + (m+1)*(impseq(2*m,0,25) - impseq(2*m+1,0,25)); 
+end
+
+stem(n1,x1); 
+xlabel('n'); 
+ylabel('x1(n)'); 
+title('Sequence x1(n)');
+
+
+
+Problem 2.1(b)
+clc;
+clear; 
+close all;
+n2 = -5:10;
+
+x2 = (n2.^2).*(stepseq(-5,-5,10)-stepseq(6,-5,10))+10*impseq(0,-5,10)+20*((0.5).^n2).*(stepseq(4,-5,10)-stepseq(10,-5,10)); 
+
+stem(n2,x2);
+xlabel('n'); 
+ylabel('x1(n)'); 
+title('Sequence x2(n)');
+
+
+
+
+Problem 2.1(c)
+clc;
+clear;
+close all;
+
+n3 = [0:20];
+x3 = ((0.9).^n3).*cos(0.2*pi*n3+pi/3);
+stem(n3,x3);
+xlabel('n'); 
+ylabel('x3(n)'); 
+title('Sequence x3(n)');
+
+
+
+
+
+problem 2.1(d)
+clc;
+clear; 
+close all;
+
+w = 2*(rand(1,101)-0.5);
+n4 = [0:100]; 
+x4 = 10*cos(0.0008*pi*n4.^2)+w;
+stem(n4,x4);
+xlabel('n'); 
+ylabel('x4(n)'); 
+title('Sequence x4(n)');
+
+
+
+
+Problem 2.1(e)
+clc;
+clear;
+close all;
+
+n5 = [-8:11]; 
+x5 = [2,1,2,3];
+x5 = x5'*ones(1,5); 
+x5 = (x5(:))';
+stem(n5,x5);
+xlabel('n'); 
+ylabel('x5(n)'); 
+title('Sequence x5(n)');
+
+
+
+
+Problem 2.2(a)
+clc;
+clear;
+close all;
+
+n = [-4:2];
+x = [1,-2,4,6,-5,8,10];
+
+[x11,n11] = sigshift(3*x,n,-2);
+[x12,n12] = sigshift(x,n,4);
+[x13,n13] = sigadd(x11,n11,x12,n12);
+[x1,n1] = sigadd(x13,n13,2*x,n);
+stem(n1,x1);
+xlabel('n'); 
+ylabel('x1(n)'); 
+title('Sequence x1(n)');
+
+
+
+
+Problem 2.2(b)
+clc;
+clear;
+close all;
+
+n = [-4:2];
+x = [1,-2,4,6,-5,8,10];
+
+[x21,n21] = sigshift(5*x,n,-5);
+[x22,n22] = sigshift(4*x,n,-4);
+[x23,n23] = sigadd(x21,n21,x22,n22);
+[x2,n2] = sigadd(x23,n23,3*x,n);
+stem(n2,x2);
+xlabel('n'); 
+ylabel('x2(n)'); 
+title('Sequence x2(n)');
+
+
+
+
+
+Problem 2.2(c)
+clc;
+clear;
+close all;
+
+n = [-4:2];
+x = [1,-2,4,6,-5,8,10];
+
+[x31,n31] = sigshift(x,n,-4);
+[x32,n32] = sigshift(x,n,1);
+[x33,n33] = sigmult(x31,n31,x32,n32);
+[x34,n34] = sigfold(x,n);
+[x34,n34] = sigshift(x34,n34,2);
+[x34,n34] = sigmult(x34,n34,x,n);
+[x3,n3] = sigadd(x33,n33,x34,n34);
+stem(n3,x3);
+xlabel('n'); 
+ylabel('x3(n)'); 
+title('Sequence x3(n)');
+
+
+
+
+Problem 2.2(d)
+clc;
+clear;
+close all;
+
+n4 = [-10:10];
+n = [-4:2];
+x = [1,-2,4,6,-5,8,10];
+x41 = 2*exp(0.5*n4); 
+x412 = cos(0.1*pi*n4); 
+[x42,n42] = sigmult(x41,n4,x,n);
+[x43,n43] = sigshift(x,n,-2);
+[x44,n44] = sigmult(x412,n4,x43,n43);
+[x4,n4] = sigadd(x42,n42,x44,n44);
+stem(n4,x4);
+xlabel('n'); 
+ylabel('x4(n)'); 
+title('Sequence x4(n)');
+
+
+
+
+
+Problem 2.2(e)
+clc;
+clear; 
+close all;
+
+n = [-4:2]; 
+x = [1,-2,4,6,-5,8,10];
+[x51,n51] = sigshift(x,n,1); 
+[x52,n52] = sigshift(x,n,2); 
+[x5,n5] = sigadd(x51,n51,x52,n52);
+[x53,n53] = sigshift(x,n,3); 
+[x5,n5] = sigadd(x5,n5,x53,n53); 
+[x54,n54] = sigshift(x,n,4); 
+[x5,n5] = sigadd(x5,n5,x54,n54); 
+[x55,n55] = sigshift(x,n,5); 
+[x5,n5] = sigadd(x5,n5,x55,n55); 
+[x5,n5] = sigmult(x5,n5,n5,n5);
+stem(n5,x5);
+xlabel('n'); 
+ylabel('x5(n)'); 
+title('Sequence x5(n)');

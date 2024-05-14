@@ -1,0 +1,74 @@
+1. even-odd function:
+
+function [xe, xo, m] = evenodd(x,n)
+% Real signal decomposition into even and odd parts
+% -------------------------------------------------
+% [xe, xo, m] = evenodd(x,n)
+%
+if any(imag(x) ~= 0)
+error('x is not a real sequence')
+end
+m = -fliplr(n);
+m1 = min([m,n]); m2 = max([m,n]); m = m1:m2;
+nm = n(1)-m(1); n1 = 1:length(n);
+x1 = zeros(1,length(m)); x1(n1+nm) = x; x = x1;
+xe = 0.5*(x + fliplr(x)); xo = 0.5*(x - fliplr(x));
+
+
+2. sigadd function:
+function [y,n] = sigadd(x1,n1,x2,n2)
+n = min(min(n1),min(n2)):max(max(n1),max(n2)); 
+y1 = zeros(1,length(n)); y2 = y1; 
+y1(find((n>=min(n1))&(n<=max(n1))==1))=x1; 
+y2(find((n>=min(n2))&(n<=max(n2))==1))=x2; 
+y = y1+y2;
+
+
+
+3. sigmult function:
+function [y,n] = sigmult(x1,n1,x2,n2)
+n = min(min(n1),min(n2)):max(max(n1),max(n2));
+y1 = zeros(1,length(n)); y2 = y1; 
+y1(find((n>=min(n1))&(n<=max(n1))==1))=x1;
+y2(find((n>=min(n2))&(n<=max(n2))==1))=x2; 
+y = y1 .* y2;
+
+
+
+4. sigfold function:
+function [y,n] = sigfold(x,n)
+y = fliplr(x); n = -fliplr(n);
+
+
+
+
+5. sigshift function:
+function [y,n] = sigshift(x,m,k)
+n = m+k; y = x;
+
+
+
+6. stepseq function:
+function [x,n] = stepseq(n0,n1,n2)
+n = [n1:n2]; x = [(n-n0) >= 0];
+
+
+
+7. impseq function:
+function [x,n] = impseq(n0,n1,n2)
+n = [n1:n2]; x = [(n-n0) == 0];
+
+
+
+
+8. conv_m function:
+function [y,ny] = conv_m(x,nx,h,nh)
+% Modified convolution routine for signal processing
+% --------------------------------------------------
+% [y,ny] = conv_m(x,nx,h,nh)
+% [y,ny] = convolution result
+% [x,nx] = first signal
+% [h,nh] = second signal
+%
+nyb = nx(1)+nh(1); nye = nx(length(x)) + nh(length(h));
+ny = [nyb:nye]; y = conv(x,h);

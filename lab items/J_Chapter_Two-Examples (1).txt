@@ -1,0 +1,254 @@
+Example 2.1(a)
+clc;
+clear;
+close all;
+n = [-5:5];
+x = 2*impseq(-2,-5,5) - impseq(4,-5,5);
+stem(n,x); 
+title('Sequence in Problem 2.1a');
+xlabel('n'); 
+ylabel('x(n)');
+
+
+Example 2.1(b)
+n = [0:20]; 
+x1 = n.*(stepseq(0,0,20)-stepseq(10,0,20));
+x2 = 10*exp(-0.3*(n-10)).*(stepseq(10,0,20)-stepseq(20,0,20));
+x = x1+x2;
+subplot(2,2,3); 
+stem(n,x); 
+title('Sequence in Problem 2.1b');
+xlabel('n'); 
+ylabel('x(n)');
+
+Example 2.1(c)
+n = [0:50]; 
+x = cos(0.04*pi*n)+0.2*randn(size(n));
+subplot(2,2,2); 
+stem(n,x); 
+title('Sequence in Problem 2.1c');
+xlabel('n'); 
+ylabel('x(n)');
+
+Example 2.1(d)
+n = [-10:9]; 
+x = [5,4,3,2,1];
+xtilde = x' * ones(1,4); xtilde = (xtilde(:))';
+subplot(2,2,4); 
+stem(n,xtilde); 
+title('Sequence in Problem 2.1d');
+xlabel('n'); 
+ylabel('xtilde(n)');
+
+
+Example 2.2(a)
+n = -2:10; 
+x = [1:7,6:-1:1]; 
+[x11,n11] = sigshift(x,n,5); 
+[x12,n12] = sigshift(x,n,-4);
+[x1,n1] = sigadd(2*x11,n11,-3*x12,n12);
+subplot(2,1,1); 
+stem(n1,x1); 
+title('Sequence in Example 2.2a');
+xlabel('n'); 
+ylabel('x1(n)');
+
+
+Example 2.2(b)
+[x21,n21] = sigfold(x,n); 
+[x21,n21] = sigshift(x21,n21,3);
+[x22,n22] = sigshift(x,n,2); 
+[x22,n22] = sigmult(x,n,x22,n22);
+[x2,n2] = sigadd(x21,n21,x22,n22);
+subplot(2,1,2); 
+stem(n2,x2); 
+title('Sequence in Example 2.2b');
+xlabel('n'); 
+ylabel('x2(n)');
+
+
+Example 2.3
+clc;
+clear;
+close all;
+
+n = [-10:1:10]; 
+alpha = -0.1+0.3j;
+x = exp(alpha*n);
+subplot(2,2,1); 
+stem(n,real(x));
+title('real part');
+xlabel('n');
+subplot(2,2,2); 
+stem(n,imag(x));
+title('imaginary part');
+xlabel('n');
+subplot(2,2,3); 
+stem(n,abs(x));
+title('magnitude part');
+xlabel('n');
+subplot(2,2,4); 
+stem(n,(180/pi)*angle(x));
+title('phase part');
+xlabel('n');
+
+
+
+Example 2.4
+n = [0:10]; 
+x = stepseq(0,0,10)-stepseq(10,0,10);
+[xe,xo,m] = evenodd(x,n);
+subplot(2,2,1); 
+stem(n,x); 
+title('Rectangular pulse');
+xlabel('n'); 
+ylabel('x(n)'); 
+axis([-10,10,0,1.2]);
+subplot(2,2,2); 
+stem(m,xe); 
+title('Even Part');
+xlabel('n'); 
+ylabel('xe(n)'); 
+axis([-10,10,0,1.2]);
+subplot(2,2,4); 
+stem(m,xo); 
+title('Odd Part');
+xlabel('n'); 
+ylabel('xe(n)'); 
+axis([-10,10,-0.6,0.6]);
+
+
+Example 2.5
+n = -5:50;
+
+u1 = stepseq(0,-5,50); u2=stepseq(10,-5,50);
+
+% input x(n)
+
+x = u1-u2;
+
+% impulse response h(n)
+
+h = ((0.9).^n).*u1;
+
+subplot(1,1,1)
+
+subplot(2,1,1); stem(n,x); axis([-5,50,0,2])
+
+title('Input Sequence')
+
+xlabel('n'), ylabel('x(n)')
+
+subplot(2,1,2); stem(n,h); axis([-5,50,0,2])
+
+title('Impulse Response')
+
+xlabel('n'), ylabel('h(n)'); pause
+
+print -deps2 ex0205a.eps
+
+% output response
+
+y = (10*(1-(0.9).^(n+1))).*(u1-u2)+(10*(1-(0.9)^10)*(0.9).^(n-9)).*u2;
+
+subplot(1,1,1)
+
+subplot(2,1,2); stem(n,y); axis([-5,50,0,8])
+
+title('Output Sequence')
+
+xlabel('n'), ylabel('y(n)')
+
+print -deps2 ex0205b.eps
+
+
+
+
+Example 2.6
+x = [3,11,7,0,-1,4,2];
+
+h = [2,3,0,-5,2,1];
+
+y = conv(x,h);
+
+
+Example 2.7
+x = [3,11,7,0,-1,4,2];
+nx = [-3:3];
+
+h = [2,3,0,-5,2,1];
+ny = [-1:4];
+
+[y,ny] = conv_m(x,nx,h,ny);
+
+
+Example 2.8
+%noise sequence 1
+x = [3,11,7,0,-1,4,2];
+nx=[-3:3];
+[y,ny] = sigshift(x,nx,2);
+w=randn(l,length(y)); 
+nw=ny;
+[y,ny] = sigadd(y,ny,w,nw);
+[x,nx] = sigfold(x,nx);
+[rxy,nrxyl = conv_m(y,ny,x,nx);
+subplot(1,1,1), subplot(2,1,1);
+stem(nrxy,rxy);
+axis([-5,10,-50,25O]);
+xlabel('lag variable 1')
+ylabel('rxy');
+title('Crosscorrelation: noise sequence 1');
+
+%noise sequence 2
+x = [3, 11, 7, 0, -1, 4, 2]; 
+nx = [-3:3];
+[y,nyl= sigshift(x,nx,2);
+w = randn(1,length(y)); 
+nw = ny;
+[y,ny] = sigadd(y,ny,w,nw);
+[x,nx] = sigfold(x,nx);
+[rxy,nrxy] = conv_m(y,ny,x,nx);
+subplot(2,1,2);
+stem(nrxy,rxy);
+axis([-5,10,-50,250);
+xlabel('lag variable 1');
+ylabel('rxy');
+title('Crosscorrelation: noise sequence 2');
+
+
+
+Example 2.9(a)
+b = [1];
+a = [1,-1,0.9];
+x = impseq(0,-20,120);
+n = [-20:120];
+h = filter(b,a,x);
+subplot(2,1,1);
+stem(n,h);
+title('Impulse Response');
+xlabel('n');
+ylabel('h(n)');
+
+Example 2.9(b)
+x = stepseq(0,-20,120);
+s = filter(b,a,x);
+subplot(2,1,2); 
+stem(n,s);
+title('Step Response'); 
+xlabel('n'); 
+ylabel('s(n)');
+
+
+Example 10
+b = [1];
+a = [1,-0.9];
+n = -5:50;
+x = stepseq(0,-5,50) - stepseq(10,-5,50);
+y = filter(b,a,x);
+subplot(1,1,1);
+subplot(2,1,2);
+stem(n,y);
+title('Output Sequence');
+xlabel('n');
+ylabel('y(n)');
+axis([-5,50,-0.5,8]);
